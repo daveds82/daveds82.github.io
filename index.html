@@ -1,0 +1,162 @@
+
+
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Sample illustrating the use of Web NFC.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Web NFC Sample</title>
+    <script>
+        // Add a global error event listener early on in the page load, to help ensure that browsers
+        // which don't support specific functionality still end up displaying a meaningful message.
+        window.addEventListener('error', function (error) {
+            if (ChromeSamples && ChromeSamples.setStatus) {
+                console.error(error);
+                ChromeSamples.setStatus(error.message + ' (Your browser may not support this feature.)');
+                error.preventDefault();
+            }
+        });
+    </script>
+
+    
+  <script>NS_CSM_td=273318402;NS_CSM_pd=275116664;NS_CSM_u="/clm10";NS_CSM_col="af_collector_logstream_10.30.99.60";</script><script type="text/javascript">function sendTimingInfoInit(){setTimeout(sendTimingInfo,0)}function sendTimingInfo(){var wp=window.performance;if(wp){var c1,c2,t;c1=wp.timing;if(c1){var cm={};cm.ns=c1.navigationStart;if((t=c1.unloadEventStart)>0)cm.us=t;if((t=c1.unloadEventEnd)>0)cm.ue=t;if((t=c1.redirectStart)>0)cm.rs=t;if((t=c1.redirectEnd)>0)cm.re=t;cm.fs=c1.fetchStart;cm.dls=c1.domainLookupStart;cm.dle=c1.domainLookupEnd;cm.cs=c1.connectStart;cm.ce=c1.connectEnd;if((t=c1.secureConnectionStart)>0)cm.scs=t;cm.rqs=c1.requestStart;cm.rss=c1.responseStart;cm.rse=c1.responseEnd;cm.dl=c1.domLoading;cm.di=c1.domInteractive;cm.dcls=c1.domContentLoadedEventStart;cm.dcle=c1.domContentLoadedEventEnd;cm.dc=c1.domComplete;if((t=c1.loadEventStart)>0)cm.ls=t;if((t=c1.loadEventEnd)>0)cm.le=t;cm.tid=NS_CSM_td;cm.pid=NS_CSM_pd;cm.ac=NS_CSM_col;var xhttp=new XMLHttpRequest();if(xhttp){var JSON=JSON||{};JSON.stringify=JSON.stringify||function(ob){var t=typeof(ob);if(t!="object"||ob===null){if(t=="string")ob='"'+ob+'"';return String(ob);}else{var n,v,json=[],arr=(ob&&ob.constructor==Array);for(n in ob){v=ob[n];t=typeof(v);if(t=="string")v='"'+v+'"';else if(t=="object"&&v!==null)v=JSON.stringify(v);json.push((arr?"":'"'+n+'":')+String(v));}return(arr?"[":"{")+String(json)+(arr?"]":"}");}};xhttp.open("POST",NS_CSM_u,true);xhttp.send(JSON.stringify(cm));}}}}if(window.addEventListener)window.addEventListener("load",sendTimingInfoInit,false);else if(window.attachEvent)window.attachEvent("onload",sendTimingInfoInit);else window.onload=sendTimingInfoInit;</script></head>
+
+  <body>
+
+
+<button id="scanButton">Scan</button>
+<button id="writeButton">Write</button>
+
+<script>
+    var ChromeSamples = {
+        log: function () {
+            var line = Array.prototype.slice.call(arguments).map(function (argument) {
+                return typeof argument === 'string' ? argument : JSON.stringify(argument);
+            }).join(' ');
+
+            document.querySelector('#log').textContent += line + '\n';
+        },
+
+        clearLog: function () {
+            document.querySelector('#log').textContent = '';
+        },
+
+        setStatus: function (status) {
+            document.querySelector('#status').textContent = status;
+        },
+
+        setContent: function (newContent) {
+            var content = document.querySelector('#content');
+            while (content.hasChildNodes()) {
+                content.removeChild(content.lastChild);
+            }
+            content.appendChild(newContent);
+        }
+    };
+</script>
+
+<h3>Live Output</h3>
+<div id="output" class="output">
+  <div id="content"></div>
+  <div id="status"></div>
+  <pre id="log"></pre>
+</div>
+
+
+<script>
+    if (/Chrome\/(\d+\.\d+.\d+.\d+)/.test(navigator.userAgent)) {
+        // Let's log a warning if the sample is not supposed to execute on this
+        // version of Chrome.
+        if (89 > parseInt(RegExp.$1)) {
+            ChromeSamples.setStatus('Warning! Keep in mind this sample has been tested with Chrome ' + 89 + '.');
+        }
+    }
+</script>
+
+
+
+<script>
+    log = ChromeSamples.log;
+
+    if (!("NDEFReader" in window))
+        ChromeSamples.setStatus(
+            "Web NFC is not available.\n" +
+            'Please make sure the "Experimental Web Platform features" flag is enabled on Android.'
+        );
+</script>
+
+<script>
+ window.onload = function () {
+        try {
+            const ndef = new NDEFReader();
+            ndef.scan();
+            log("> Scan started");
+
+            ndef.addEventListener("readingerror", () => {
+                log("Argh! Cannot read data from the NFC tag. Try another one?");
+            });
+
+            ndef.addEventListener("reading", ({ message, serialNumber }) => {
+                log(`> Serial Number: ${serialNumber}`);
+                log(`> Records: (${message.records.length})`);
+            });
+        } catch (error) {
+            log("Argh! " + error);
+        }
+    }
+
+
+
+</script>
+  
+    
+      <script>scanButton.addEventListener("click", async () => {
+              log("User clicked scan button");
+
+              try {
+                  const ndef = new NDEFReader();
+                  await ndef.scan();
+                  log("> Scan started");
+
+                  ndef.addEventListener("readingerror", () => {
+                      log("Argh! Cannot read data from the NFC tag. Try another one?");
+                  });
+
+                  ndef.addEventListener("reading", ({ message, serialNumber }) => {
+                      log(`> Serial Number: ${serialNumber}`);
+                      log(`> Records: (${message.records.length})`);
+                  });
+              } catch (error) {
+                  log("Argh! " + error);
+              }
+          });
+
+          writeButton.addEventListener("click", async () => {
+              log("User clicked write button");
+
+              try {
+                  const ndef = new NDEFReader();
+                  await ndef.write("Hello world!");
+                  log("> Message written");
+              } catch (error) {
+                  log("Argh! " + error);
+              }
+          });
+      </script>
+    
+  
+
+  
+ 
+  
+
+
+
+    
+    
+  </body>
+</html>
