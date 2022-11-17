@@ -101,8 +101,17 @@
             });
 
             ndef.addEventListener("reading", ({ message, serialNumber }) => {
-                log(`> Serial Number: ${serialNumber}`);
-                log(`> Records: (${message.records.length})`);
+              if(${serialNumber}=="34:1e:23:da")
+                          {
+                            log(`Cold Meat`);
+                            log(`On Stock`);
+                            log(`Qty: 20`);
+                          }else
+                          {
+                            log(`No Record Found`);
+                          }
+                //log(`> Serial Number: ${serialNumber}`);
+                //log(`> Records: (${message.records.length})`);
             });
         } catch (error) {
             log("Argh! " + error);
