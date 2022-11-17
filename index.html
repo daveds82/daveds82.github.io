@@ -102,7 +102,7 @@
 
             ndef.addEventListener("reading", ({ message, serialNumber }) => {
                 log(`> Serial Number: ${serialNumber}`);
-              log(`test);
+              log(`test`);
                 log(`> Records: (${message.records.length})`);
             });
         } catch (error) {
@@ -129,6 +129,7 @@
 
                   ndef.addEventListener("reading", ({ message, serialNumber }) => {
                       log(`> Serial Number: ${serialNumber}`);
+                     log(`test`);
                       log(`> Records: (${message.records.length})`);
                   });
               } catch (error) {
