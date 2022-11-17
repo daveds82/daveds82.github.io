@@ -101,12 +101,11 @@
             });
 
             ndef.addEventListener("reading", ({ message, serialNumber }) => {
-                log(`> Serial Number: ${serialNumber}`);
+                log(`ID Number: ${serialNumber}`);
                 log(`Hotdog`);
                 log(`Stock: 25`);
+                log(`On Stock`);
              
-              
-                log(`> Records: (${message.records.length})`);
             });
         } catch (error) {
             log("Argh! " + error);
@@ -131,13 +130,10 @@
                   });
 
                   ndef.addEventListener("reading", ({ message, serialNumber }) => {
-                      log(`> Serial Number: ${serialNumber}`);
-                      var a = ${serialNumber};
-              if(a=="34:1e:23:da")
-              {
-                log(`Stock: 25`);
-              }
-                      log(`> Records: (${message.records.length})`);
+                      log(`ID Number: ${serialNumber}`);
+                      log(`Hotdog`);
+                      log(`Stock: 25`);
+                      log(`On Stock`);
                   });
               } catch (error) {
                   log("Argh! " + error);
