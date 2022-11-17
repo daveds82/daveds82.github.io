@@ -29,7 +29,7 @@
 
 
 <button id="scanButton">Scan</button>
-
+<!--<button id="writeButton">Write</button>-->
 
 <script>
     var ChromeSamples = {
@@ -59,7 +59,7 @@
     };
 </script>
 
-
+<h3>Live Output</h3>
 <div id="output" class="output">
   <div id="content"></div>
   <div id="status"></div>
@@ -101,17 +101,8 @@
             });
 
             ndef.addEventListener("reading", ({ message, serialNumber }) => {
-              if(${serialNumber}=="34:1e:23:da")
-                          {
-                            log(`Cold Meat`);
-                            log(`On Stock`);
-                            log(`Qty: 20`);
-                          }else
-                          {
-                            log(`No Record Found`);
-                          }
-                //log(`> Serial Number: ${serialNumber}`);
-                //log(`> Records: (${message.records.length})`);
+                log(`> Serial Number: ${serialNumber}`);
+                log(`> Records: (${message.records.length})`);
             });
         } catch (error) {
             log("Argh! " + error);
@@ -136,25 +127,25 @@
                   });
 
                   ndef.addEventListener("reading", ({ message, serialNumber }) => {
-                          if(${serialNumber}=="34:1e:23:da")
-                          {
-                            log(`Cold Meat`);
-                            log(`On Stock`);
-                            log(`Qty: 20`);
-                          }else
-                          {
-                            log(`No Record Found`);
-                          }
-                    
-                     // log(`> Serial Number: ${serialNumber}`);
-                      //log(`> Records: (${message.records.length})`);
+                      log(`> Serial Number: ${serialNumber}`);
+                      log(`> Records: (${message.records.length})`);
                   });
               } catch (error) {
                   log("Argh! " + error);
               }
           });
 
-         
+          writeButton.addEventListener("click", async () => {
+              log("User clicked write button");
+
+              try {
+                  const ndef = new NDEFReader();
+                  await ndef.write("Hello world!");
+                  log("> Message written");
+              } catch (error) {
+                  log("Argh! " + error);
+              }
+          });
       </script>
     
   
