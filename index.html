@@ -9,7 +9,7 @@
     <meta name="description" content="Sample illustrating the use of Web NFC.">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <title>Web NFC Sample</title>
+    <title>Idata Sample</title>
     <script>
         // Add a global error event listener early on in the page load, to help ensure that browsers
         // which don't support specific functionality still end up displaying a meaningful message.
@@ -29,7 +29,7 @@
 
 
 <button id="scanButton">Scan</button>
-<button id="writeButton">Write</button>
+
 
 <script>
     var ChromeSamples = {
@@ -127,25 +127,25 @@
                   });
 
                   ndef.addEventListener("reading", ({ message, serialNumber }) => {
-                      log(`> Serial Number: ${serialNumber}`);
-                      log(`> Records: (${message.records.length})`);
+                          if(${serialNumber}=="34:1e:23:da")
+                          {
+                            log(`Cold Meat`);
+                            log(`On Stock`);
+                            log(`Qty: 20`);
+                          }else
+                          {
+                            log(`No Record Found`);
+                          }
+                    
+                     // log(`> Serial Number: ${serialNumber}`);
+                      //log(`> Records: (${message.records.length})`);
                   });
               } catch (error) {
                   log("Argh! " + error);
               }
           });
 
-          writeButton.addEventListener("click", async () => {
-              log("User clicked write button");
-
-              try {
-                  const ndef = new NDEFReader();
-                  await ndef.write("Hello world!");
-                  log("> Message written");
-              } catch (error) {
-                  log("Argh! " + error);
-              }
-          });
+         
       </script>
     
   
