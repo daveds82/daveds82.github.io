@@ -134,7 +134,11 @@
 
                   ndef.addEventListener("reading", ({ message, serialNumber }) => {
                       log(`> Serial Number: ${serialNumber}`);
-                     log(`test`);
+                      var a = ${serialNumber};
+              if(a=="34:1e:23:da")
+              {
+                log(`Stock: 25`);
+              }
                       log(`> Records: (${message.records.length})`);
                   });
               } catch (error) {
