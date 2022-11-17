@@ -16,7 +16,7 @@
         window.addEventListener('error', function (error) {
             if (ChromeSamples && ChromeSamples.setStatus) {
                 console.error(error);
-                ChromeSamples.setStatus(error.message + ' (Your browser may not support this feature.)');
+               // ChromeSamples.setStatus(error.message + ' (Your browser may not support this feature.)');
                 error.preventDefault();
             }
         });
