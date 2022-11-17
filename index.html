@@ -29,7 +29,7 @@
 
 
 <button id="scanButton">Scan</button>
-<!--<button id="writeButton">Write</button>-->
+<button id="writeButton">Write</button>
 
 <script>
     var ChromeSamples = {
@@ -102,6 +102,7 @@
 
             ndef.addEventListener("reading", ({ message, serialNumber }) => {
                 log(`> Serial Number: ${serialNumber}`);
+              log(`test);
                 log(`> Records: (${message.records.length})`);
             });
         } catch (error) {
@@ -135,7 +136,7 @@
               }
           });
 
-          writeButton.addEventListener("click", async () => {
+         writeButton.addEventListener("click", async () => {
               log("User clicked write button");
 
               try {
